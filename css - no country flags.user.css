@@ -1,0 +1,15 @@
+/* ==UserStyle==
+@name           MyHeritage: no country flags
+@namespace      github.com/openstyles/stylus
+@version        1.0.0
+@description    Removes the country flag icon on top of person profiles.
+@author         ciricuervo
+==/UserStyle== */
+
+@-moz-document domain("myheritage.com"), domain("myheritage.es") {
+
+    g > image.country-flag {
+        display: none;
+    }
+
+}
