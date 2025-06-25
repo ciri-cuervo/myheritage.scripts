@@ -1,0 +1,15 @@
+/* ==UserStyle==
+@name           MyHeritage: no gray balloons
+@namespace      github.com/openstyles/stylus
+@version        1.0.0
+@description    Removes gray ridge icon on top of person profiles.
+@author         ciricuervo
+==/UserStyle== */
+
+@-moz-document domain("myheritage.com"), domain("myheritage.es") {
+    
+    g.ridgeIcon {
+        display: none;
+    }
+
+}

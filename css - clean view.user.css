@@ -1,0 +1,39 @@
+/* ==UserStyle==
+@name           MyHeritage: clean view
+@namespace      github.com/openstyles/stylus
+@version        1.0.0
+@description    Cleans up icons and buttons for a better display.
+@author         ciricuervo
+==/UserStyle== */
+
+@-moz-document domain("myheritage.com"), domain("myheritage.es") {
+    
+    g.profileImageGroup > g:nth-child(2),
+    g.NewTree_RightIcon,
+    g.NewTree_EditIcon,
+    g.NewTree_GhostIcon,
+    g.add_individual_button,
+    g > circle[filter="url(#greetingFilterDef)"],
+    g > circle[filter="url(#greetingFilterDef)"] + image,
+    g.newPersonBadge,
+    div#NewTree_zoomerBox,
+    div#NewTree_panBox,
+    a.ToolBarButton.ToolBar_colorCoding.tree_color_coding_button,
+    a.ToolBarButton.ToolBar_exitFullScreen,
+    #NewToolBarSummary,
+    #NewTreeToolBar .ToolBar_options,
+    #NewTreeToolBar .ToolBar_help,
+    #NewTreeLeftPanel .lp_opener {
+        display: none;
+    }
+
+    #NewTreeToolBar {
+        background: none;
+        box-shadow: none;
+    }
+
+    #NewTreeOuter {
+        margin-top: 0px !important;
+    }
+
+}
