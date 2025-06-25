@@ -6,6 +6,11 @@
 @author         ciricuervo
 ==/UserStyle== */
 
+/*
+  To display country flags you need a JS browser extension (Tampermonkey, Greasemonkey or Violentmonkey)
+  and to install this script: https://greasyfork.org/en/scripts/540788-myheritage-flag-injector-with-country-detection
+*/
+
 @-moz-document domain("myheritage.com"), domain("myheritage.es") {
 
     g > image.country-flag {
