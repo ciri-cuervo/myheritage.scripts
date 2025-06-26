@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyHeritage: Flag Injector with Country Detection
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.0.0
 // @description  Add country flags to each node of your MyHeritage family tree using birthplaces. With caching and AJAX throttling.
 // @author       ciricuervo
 // @match        https://www.myheritage.com/*
