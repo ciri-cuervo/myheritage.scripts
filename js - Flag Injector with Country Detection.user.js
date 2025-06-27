@@ -1,12 +1,14 @@
 // ==UserScript==
-// @name         MyHeritage: Flag Injector with Country Detection
+// @name         MyHeritage: Flag injector with country detection
 // @namespace    http://tampermonkey.net/
 // @version      1.0.0
 // @description  Add country flags to each node of your MyHeritage family tree using birthplaces. With caching and AJAX throttling.
 // @author       ciricuervo
 // @match        https://www.myheritage.com/*
 // @match        https://www.myheritage.es/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=myheritage.com
 // @grant        none
+// @run-at       document-idle
 // ==/UserScript==
 
 (function () {
@@ -151,7 +153,7 @@
             if (countryCode === undefined) {
                 countryCode = await fetchCountryCode(individualID);
                 countryCache.set(individualID, countryCode); // can be null
-                await sleep(500); // throttling
+                await sleep(300); // throttling
             }
             if (countryCode) injectFlag(node, countryCode);
         }
