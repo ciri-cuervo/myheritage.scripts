@@ -15,7 +15,7 @@ Custom JS can be imported using [**Tampermonkey**](https://www.tampermonkey.net/
 Once these extensions are instaled, another way of importing the styles/scripts is by accessing to:
 
 - CSS: https://userstyles.world/user/ciricuervo
-- JS: https://greasyfork.org/en/scripts/540788-myheritage-flag-injector-with-country-detection
+- JS: https://greasyfork.org/en/users/1488542-ciricuervo?language=js
 
 ## 📜 Scripts
 
@@ -32,3 +32,4 @@ Once these extensions are instaled, another way of importing the styles/scripts 
 ### JS
 
 - Country flags injector
+- Names and dates abbreviator
