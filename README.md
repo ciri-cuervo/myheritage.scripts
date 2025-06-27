@@ -16,3 +16,19 @@ Once these extensions are instaled, another way of importing the styles/scripts 
 
 - CSS: https://userstyles.world/user/ciricuervo
 - JS: https://greasyfork.org/en/scripts/540788-myheritage-flag-injector-with-country-detection
+
+## 📜 Scripts
+
+### CSS
+
+- Clean view
+- No gray balloons
+- No search bar
+- Font weight
+- Line weight
+- No DNA offer / notification
+- No country flags
+
+### JS
+
+- Country flags injector
