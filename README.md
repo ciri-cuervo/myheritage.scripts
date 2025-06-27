@@ -1,6 +1,9 @@
 # MyHeritage Scripts
 
-CSS and JS scripts to improve visualization of [MyHeritage](https://www.myheritage.com/) family tree.
+CSS and JavaScript enhancements to improve the visualization of your [MyHeritage](https://www.myheritage.com/) family tree.
+
+### 🌍 Available languages:
+- [Español](README.es.md)
 
 ## 📸 Screenshot
 
@@ -8,28 +11,28 @@ CSS and JS scripts to improve visualization of [MyHeritage](https://www.myherita
 
 ## 🚀 Installation
 
-Custom CSS can be imported using [**Stylus**](https://github.com/openstyles/stylus) browser extension.
+Custom CSS can be applied using the [**Stylus**](https://github.com/openstyles/stylus) browser extension.
 
-Custom JS can be imported using [**Tampermonkey**](https://www.tampermonkey.net/) browser extension or similar.
+Custom JavaScript can be run using [**Tampermonkey**](https://www.tampermonkey.net/) or a similar user script manager.
 
-Once these extensions are instaled, another way of importing the styles/scripts is by accessing to:
+Once you have these extensions installed, another way to import the styles and scripts is through:
 
 - CSS: https://userstyles.world/user/ciricuervo
 - JS: https://greasyfork.org/en/users/1488542-ciricuervo?language=js
 
-## 📜 Scripts
+## 📜 Available Scripts
 
 ### CSS
 
 - Clean view
-- No gray balloons
-- No search bar
-- Font weight
-- Line weight
-- No DNA offer / notification
-- No country flags
+- Remove gray balloons
+- Hide search bar
+- Adjust font weight
+- Adjust line thickness
+- Hide DNA offers/notifications
+- Hide country flags
 
-### JS
+### JavaScript
 
-- Country flags injector
-- Names and dates abbreviator
+- Country flag injector
+- Name and date abbreviator
