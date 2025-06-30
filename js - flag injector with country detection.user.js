@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyHeritage: Flag injector with country detection
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Add country flags to each node of your MyHeritage family tree using birthplaces. With caching and AJAX throttling.
 // @author       ciricuervo
 // @match        https://www.myheritage.com/*
@@ -20,6 +20,7 @@
 
     const csrf_token = window.mhXsrfToken;
     const siteId = window.currentSiteId;
+    const lang = window.languageCode;
 
     const countryCache = new Map();
     const queue = [];
@@ -29,6 +30,7 @@
         ['alemania', 'de'],
         ['germany', 'de'],
         ['argentina', 'ar'],
+        ['australia', 'au'],
         ['austria', 'at'],
         ['bolivia', 'bo'],
         ['brasil', 'br'],
@@ -127,7 +129,7 @@
     }
 
     async function fetchCountryCode(individualID) {
-        const url = `/FP/API/FamilyTree/get-extended-card-content.php?allEventsForIndividual=0&clientDate=${clientDate}&dataLang=ES&discoveries=0&dna=0&facts=0&individualID=${individualID}&lang=ES&matches=0&photos=0&relatives=0&s=${siteId}&sites=0&csrf_token=${csrf_token}`;
+        const url = `/FP/API/FamilyTree/get-extended-card-content.php?allEventsForIndividual=0&clientDate=${clientDate}&dataLang=${lang}&discoveries=0&dna=0&facts=0&individualID=${individualID}&lang=${lang}&matches=0&photos=0&relatives=0&s=${siteId}&sites=0&csrf_token=${csrf_token}`;
 
         try {
             const res = await fetch(url);
@@ -232,6 +234,8 @@
     if (treeNode) {
         appendOutlineFilter();
         observer.observe(treeNode, { childList: true, subtree: false });
+
+        // Trigger injector
         addAllFlags();
     }
 })();
