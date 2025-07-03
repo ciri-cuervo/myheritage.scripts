@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyHeritage: Flag injector with country detection
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Add country flags to each node of your MyHeritage family tree using birthplaces. With caching and AJAX throttling.
 // @author       ciricuervo
 // @match        https://www.myheritage.com/*
@@ -223,19 +223,32 @@
         }
     }
 
+    // Wait for the SVG node to become available, with retries
+    async function waitForTreeNode(maxRetries = 5, delayMs = 200) {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            const treeNode = document.querySelector('#NewTreeVector > svg > g');
+            if (treeNode) return treeNode;
+            await sleep(delayMs);
+        }
+        return null;
+    }
+
     // Each time the observer detects a change it will re-queue the visible nodes
     const observer = new MutationObserver(() => {
         queue.length = 0;
         addAllFlags();
     });
 
-    // If the SVG is loaded, start adding the flags
-    const treeNode = document.querySelector('#NewTreeVector > svg > g');
-    if (treeNode) {
+    // Start of the script
+    (async function init() {
+        const treeNode = await waitForTreeNode();
+        if (!treeNode) {
+            console.warn('MyHeritage flag injector: SVG tree not found after retries.');
+            return;
+        }
+
         appendOutlineFilter();
         observer.observe(treeNode, { childList: true, subtree: false });
-
-        // Trigger injector
         addAllFlags();
-    }
+    })();
 })();
