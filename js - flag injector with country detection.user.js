@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyHeritage: Flag injector with country detection
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Add country flags to each node of your MyHeritage family tree using birthplaces. With caching and AJAX throttling.
 // @author       ciricuervo
 // @match        https://www.myheritage.com/*
@@ -25,6 +25,7 @@
     const countryCache = new Map();
     const queue = [];
     let processing = false;
+    let queueUpdated = false;
 
     const countryMap = new Map([
         ['alemania', 'de'],
@@ -144,21 +145,41 @@
         }
     }
 
+    function processCachedNodes() {
+        for (let i = queue.length - 1; i >= 0; i--) {
+            const { node, individualID } = queue[i];
+            const countryCode = countryCache.get(individualID);
+            if (countryCode) {
+                injectFlag(node, countryCode);
+                queue.splice(i, 1);
+            }
+        }
+    }
+
     async function processQueue() {
+        queueUpdated = true;
         if (processing) return;
         processing = true;
+
         while (queue.length > 0) {
-            const { node, individualID } = queue.shift();
-            let countryCode = countryCache.get(individualID);
-            // `undefined` means it is not present in the cache
-            // `null` means the person doesn't have a birth country set
-            if (countryCode === undefined) {
-                countryCode = await fetchCountryCode(individualID);
-                countryCache.set(individualID, countryCode); // can be null
-                await sleep(300); // throttling
+            if (queueUpdated) {
+                // Process cached nodes first (inject without delay)
+                processCachedNodes();
+                queueUpdated = false;
+                continue;
             }
+
+            // Fetch the uncached (new nodes to process) and null-cached (that may have changed)
+            const { node, individualID } = queue.shift();
+            let countryCode = await fetchCountryCode(individualID);
+            countryCache.set(individualID, countryCode); // can be null
             if (countryCode) injectFlag(node, countryCode);
+            await sleep(300); // throttling
+
+            // If by the time it wakes up (after the throttling/delay) there was a re-queue,
+            // the `queueUpdated` flag will take care of processing the cached nodes first.
         }
+
         processing = false;
     }
 
