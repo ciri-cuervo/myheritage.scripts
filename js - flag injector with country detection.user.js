@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyHeritage: Flag injector with country detection
 // @namespace    http://tampermonkey.net/
-// @version      1.0.3
+// @version      1.0.4
 // @description  Add country flags to each node of your MyHeritage family tree using birthplaces. With caching and AJAX throttling.
 // @author       ciricuervo
 // @match        https://www.myheritage.com/*
@@ -130,7 +130,7 @@
     }
 
     async function fetchCountryCode(individualID) {
-        const url = `/FP/API/FamilyTree/get-extended-card-content.php?allEventsForIndividual=0&clientDate=${clientDate}&dataLang=${lang}&discoveries=0&dna=0&facts=0&individualID=${individualID}&lang=${lang}&matches=0&photos=0&relatives=0&s=${siteId}&sites=0&csrf_token=${csrf_token}`;
+        const url = `/FP/API/FamilyTree/get-extended-card-content.php?allEventsForIndividual=0&clientDate=${clientDate}&dataLang=&discoveries=0&dna=0&facts=0&individualID=${individualID}&lang=${lang}&matches=0&photos=0&relatives=0&s=${siteId}&sites=0&csrf_token=${csrf_token}`;
 
         try {
             const res = await fetch(url);
@@ -203,12 +203,19 @@
         img.setAttributeNS(xlinkNS, 'xlink:href', `https://flagcdn.com/w40/${countryCode}.png`);
         img.classList.add('country-flag');
 
-        const g = document.createElementNS(svgNS, 'g');
-        g.setAttribute('data-type', 'onTopGroup');
-        g.setAttribute('transform', 'matrix(1.0, 0.0, 0.0, 1.0, 100.0, -13.5)'); // the position of the flags
-        g.appendChild(img);
+        // If outer node has a width less than 200, we assume it is using vertical cards display
+        //  - Horizontal cards display: (180, 86.5)
+        //  - Vertical cards display: (100, -13.5)
+        const outerNodeWidth = outerNode.getBBox().width;
+        const flagNodeX = outerNodeWidth < 200 ? 100.0 : 180.0;
+        const flagNodeY = outerNodeWidth < 200 ? -13.5 : 86.5;
 
-        onTopNode.appendChild(g);
+        const flagNode = document.createElementNS(svgNS, 'g');
+        flagNode.setAttribute('data-type', 'onTopGroup');
+        flagNode.setAttribute('transform', `matrix(1.0, 0.0, 0.0, 1.0, ${flagNodeX}, ${flagNodeY})`);
+        flagNode.appendChild(img);
+
+        onTopNode.appendChild(flagNode);
     }
 
     function addAllFlags() {
@@ -245,7 +252,7 @@
     }
 
     // Wait for the SVG node to become available, with retries
-    async function waitForTreeNode(maxRetries = 5, delayMs = 200) {
+    async function waitForTreeNode(maxRetries = 8, delayMs = 400) {
         for (let attempt = 1; attempt <= maxRetries; attempt++) {
             const treeNode = document.querySelector('#NewTreeVector > svg > g');
             if (treeNode) return treeNode;
