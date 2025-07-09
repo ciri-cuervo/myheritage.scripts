@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name         MyHeritage: Names and dates abbreviator (for Spanish lang)
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Intercepts 'get-tree-layout.php' API call and abbreviates the given and last name, along with the months of the dates.
 // @author       ciricuervo
-// @match        https://www.myheritage.com/*
 // @match        https://www.myheritage.es/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=myheritage.com
 // @grant        none
@@ -22,18 +21,18 @@
     'use strict';
 
     const monthMap = {
-        "enero": "ene",
-        "febrero": "feb",
-        "marzo": "mar",
-        "abril": "abr",
-        "mayo": "may",
-        "junio": "jun",
-        "julio": "jul",
-        "agosto": "ago",
-        "septiembre": "sep",
-        "octubre": "oct",
-        "noviembre": "nov",
-        "diciembre": "dic",
+        'enero': 'ene',
+        'febrero': 'feb',
+        'marzo': 'mar',
+        'abril': 'abr',
+        'mayo': 'may',
+        'junio': 'jun',
+        'julio': 'jul',
+        'agosto': 'ago',
+        'septiembre': 'sep',
+        'octubre': 'oct',
+        'noviembre': 'nov',
+        'diciembre': 'dic',
     };
 
     // Abbreviator tries not to truncate words
@@ -45,11 +44,10 @@
     }
 
     function abbreviateDateString(str) {
-        if (str.indexOf(' de ') === -1) return str;
         return str
             .toLowerCase()
-            .replaceAll(' de ', ' ')
-            .replace(new RegExp('\\b(' + Object.keys(monthMap).join('|') + ')\\b', 'gi'), m => monthMap[m]);
+            .replace(/(?<!antes|después|alrededor) de /g, ' ')
+            .replace(new RegExp('\\b(' + Object.keys(monthMap).join('|') + ')\\b', 'g'), m => monthMap[m]);
     }
 
     function processCard(card) {
